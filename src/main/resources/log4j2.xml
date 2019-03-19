@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO">
+    <!-- 全局参数 -->
+    <Properties>
+        <Property name="NAME">zfserver</Property>
+        <property name="LOG_HOME">/opt/log/zfserver</property>
+        <Property name="PATTERN_LAYOUT">[%d{MM-dd HH:mm:ss SSS} %-5p] [%t] %c{3}(%L) - %m%n</Property>
+        <property name="DURATION">3d</property>
+    </Properties>
+    <Appenders>
+        <Console name="consoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <pattern>${PATTERN_LAYOUT}</pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="errorAppender" fileName="${LOG_HOME}/${NAME}_error.log"
+                     filePattern="${LOG_HOME}/${NAME}_error.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout>
+                <Pattern>${PATTERN_LAYOUT}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}" maxDepth="1">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="${DURATION}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="infoAppender" fileName="${LOG_HOME}/${NAME}_info.log"
+                     filePattern="${LOG_HOME}/${NAME}_info.log.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout>
+                <Pattern>${PATTERN_LAYOUT}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}" maxDepth="1">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="${DURATION}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="consoleAppender"/>
+            <AppenderRef ref="infoAppender"/>
+            <AppenderRef ref="errorAppender"/>
+        </Root>
+    </Loggers>
+</configuration>

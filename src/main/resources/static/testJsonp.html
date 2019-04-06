@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="">
+
+</body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://47.105.166.212:8443/greeting"></script>
+<script type="text/javascript">
+
+    var localHandler = function(data){
+        alert('我是本地函数，可以被跨域的remote.js文件调用，远程js带来的数据是：' + data.result);
+    }
+
+    var url = "https://47.105.166.212:8443/greeting?code=CA1998&callback=flightHandler";
+    // 创建script标签，设置其属性
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+    // 把script标签加入head，此时调用开始
+    document.getElementsByTagName('head')[0].appendChild(script);
+
+
+    function test() {
+        $.ajax({
+            url: "https://47.105.166.212:8443/greeting",
+            type: "get",
+            success: function (result) {
+                console.log(JSON.stringify(result))
+            },
+            error: function (data) {
+                console.log(JSON.stringify(data))
+            }
+        });
+    }
+
+    //test()
+</script>
+</html>

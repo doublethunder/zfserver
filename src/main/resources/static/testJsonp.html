@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="">
+<script type="text/javascript">
+    var localHandler = function (data) {
+        console.log('我是静态标签，远程接口带来的数据是：' + JSON.stringify(data));
+    };
+</script>
+<button onclick="test()">点我</button>
+<!--<script type="text/javascript" src="http://47.105.166.212/jsonp?callback=localHandler"></script>-->
+</body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+    function createScript() {
+        var url = "http://47.105.166.212/jsonp?callback=flightHandler";
+        // 创建script标签，设置其属性
+        var script = document.createElement('script');
+        script.setAttribute('src', url);
+        // 把script标签加入head，此时调用开始
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    }
+
+    function flightHandler(data) {
+        console.log("我是flightHandler动态标签：jsonp回调数据=====" + JSON.stringify(data));
+    }
+
+    function test() {
+
+        $.ajax({
+            url: "http://47.105.166.212/jsonp",
+            type: "get"''
+            dataType: "jsonp",
+            // jsonp: "callback",
+            // jsonpCallback: "flightHandler",
+            success: function (result) {
+                console.log("我是ajax" + JSON.stringify(result))
+            },
+            error: function (data) {
+                console.log(JSON.stringify(data))
+            }
+        });
+    }
+
+    // test()
+</script>
+</html>

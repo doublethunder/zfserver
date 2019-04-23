@@ -1,15 +1,13 @@
 package com.dt.miniapp.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.dt.miniapp.model.Greeting;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import com.dt.miniapp.util.JsonConvert;
+import com.dt.miniapp.util.JsonpString;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class GreetingController {
@@ -18,8 +16,14 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greeting(counter.incrementAndGet(),
-                            String.format(template, name));
+                String.format(template, name));
+    }
+
+    @RequestMapping("/jsonp")
+    public String jsonp(@RequestParam(value = "callback", defaultValue = "callback") String callback, @RequestParam(value = "name", defaultValue = "World") String name) {
+        Greeting greeting = new Greeting(counter.incrementAndGet(), String.format(template, name));
+        return JsonpString.jsonp(JsonConvert.serializeObject(greeting), callback);
     }
 }

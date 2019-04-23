@@ -1,11 +1,7 @@
 package hello;
 
-import com.dt.miniapp.dao.PersonRepository;
-import com.dt.miniapp.model.Person;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author chenlei
@@ -15,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class TestMongo extends BaseTest{
 
-    @Autowired
-    private PersonRepository personRepository;
+    /*@Autowired
+    private PersonRepository personRepository;*/
 
     @Test
     public void test() {
-        personRepository.deleteAll();
+        /*personRepository.deleteAll();
         // 创建三个User，并验证User总数
         personRepository.save(Person.builder().id("1").firstName("123").lastName("321").build());
         personRepository.save(Person.builder().id("2").firstName("456").lastName("321").build());
@@ -36,6 +32,6 @@ public class TestMongo extends BaseTest{
         u = personRepository.findDistinctByFirstName("456");
         log.info("u={}", u.toString());
         personRepository.delete(u);
-        Assert.assertEquals(1, personRepository.findAll().size());
+        Assert.assertEquals(1, personRepository.findAll().size());*/
     }
 }

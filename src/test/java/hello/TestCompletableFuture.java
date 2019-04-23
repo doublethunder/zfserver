@@ -48,8 +48,8 @@ public class TestCompletableFuture extends BaseTest {
         CompletableFuture[] cfArr = processorList.stream()
                 .map(process ->
                         cf.thenCompose(homepage ->
-                                CompletableFuture.supplyAsync(() -> process.processor(homepage))
-                                        .completeOnTimeout(homepage, 1000, TimeUnit.MILLISECONDS)))
+                                CompletableFuture.supplyAsync(() -> process.processor(homepage))))
+                                       // .completeOnTimeout(homepage, 1000, TimeUnit.MILLISECONDS)))
                 .toArray(CompletableFuture[]::new);
 
         CompletableFuture.allOf(cfArr).join();

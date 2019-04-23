@@ -33,7 +33,7 @@ public class GreetingWSContoller {
      */
     private static CopyOnWriteArraySet<GreetingWSContoller> webSocketSet = new CopyOnWriteArraySet<>();
 
-    private static final int MAX_NUM = 1000;
+    private static final int MAX_NUM = 10000;
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -60,7 +60,10 @@ public class GreetingWSContoller {
         //在线数加1
         log.info("有新连接加入！当前在线人数为" + addOnlineCount());
         try {
-            sendMessage("你好");
+            session.setMaxBinaryMessageBufferSize(1000);
+            session.setMaxIdleTimeout(60 * 1000);
+            session.setMaxTextMessageBufferSize(100);
+            sendMessage("热烈欢迎，来跟我尬聊吧~");
         } catch (IOException e) {
             log.error("IO异常", e);
         }
@@ -86,13 +89,10 @@ public class GreetingWSContoller {
     public void onMessage(String message, Session session) {
         log.info("来自客户端的消息:{}", message);
 
-        //群发消息
-        for (GreetingWSContoller item : webSocketSet) {
-            try {
-                item.sendMessage(getResponseMessage(message));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            session.getBasicRemote().sendText(getResponseMessage(message));
+        } catch (IOException e) {
+            log.error("消息发送错误", e);
         }
     }
 
@@ -108,7 +108,7 @@ public class GreetingWSContoller {
 
     @OnError
     public void onError(Session session, Throwable error) {
-        log.info("发生错误");
+        log.error("发生错误", error);
         error.printStackTrace();
     }
 

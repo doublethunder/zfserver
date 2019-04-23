@@ -1,15 +1,11 @@
 package hello;
 
-import com.dt.miniapp.Application;
 import com.dt.miniapp.dao.PersonRepository;
 import com.dt.miniapp.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author chenlei
@@ -17,9 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2019/3/9 11:15 PM
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application.class)
-public class TestMongo {
+public class TestMongo extends BaseTest{
 
     @Autowired
     private PersonRepository personRepository;

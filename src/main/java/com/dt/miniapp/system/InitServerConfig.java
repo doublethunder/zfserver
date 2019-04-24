@@ -1,14 +1,5 @@
 package com.dt.miniapp.system;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 /**
  * @author chenlei
  * @description
@@ -17,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 //@Configuration
 public class InitServerConfig {
 
-//    @Value("${http.port}")
+//    @UrlValue("${http.port}")
 //    Integer httpPort;
 //
-//    @Value("${server.port}")
+//    @UrlValue("${server.port}")
 //    Integer httpsPort;
 
 //    @Bean
